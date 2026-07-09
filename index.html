@@ -277,10 +277,25 @@
 
 <script>
 (function(){
+  // Points at a Cloudflare Worker (see SETUP.md) that holds the ntfy topic as a
+  // server-side secret, rate-limits by IP, and enriches the push with rough
+  // visitor geo/device info. Nothing secret lives in this file anymore.
+  var PING_ENDPOINT = 'https://zilberman-ping.igorzi84.workers.dev/ping';
+
   var nodeIds = ['n0','n1','n2','n3','n4','n5'];
   var edgeIds = ['e0','e1','e2','e3','e4'];
   var toast = document.getElementById('toast');
   var running = false;
+
+  function sendRealPing(){
+    // one real push per browser session, so refreshing doesn't spam the phone
+    try{
+      if(sessionStorage.getItem('zc_pinged')) return;
+      sessionStorage.setItem('zc_pinged', '1');
+    }catch(e){ /* storage blocked, still try to send once */ }
+    fetch(PING_ENDPOINT, { method: 'POST' })
+      .catch(function(){ /* offline, blocked, or endpoint not deployed yet — fail silently */ });
+  }
 
   function resetFlow(){
     nodeIds.forEach(function(id){ document.getElementById(id).classList.remove('active'); });
@@ -288,7 +303,7 @@
     toast.classList.remove('show');
   }
 
-  function runFlow(){
+  function runFlow(sendReal){
     if(running) return;
     running = true;
     resetFlow();
@@ -302,6 +317,7 @@
     function tick(){
       if(step >= sequence.length){
         toast.classList.add('show');
+        if(sendReal) sendRealPing();
         setTimeout(function(){ toast.classList.remove('show'); }, 5000);
         running = false;
         return;
@@ -313,10 +329,12 @@
     tick();
   }
 
-  document.getElementById('replay').addEventListener('click', runFlow);
+  // real trigger: fires once per page load, sends the actual ntfy push
   window.addEventListener('load', function(){
-    setTimeout(runFlow, 900);
+    setTimeout(function(){ runFlow(true); }, 900);
   });
+  // replay button: just re-plays the animation, does not send another real push
+  document.getElementById('replay').addEventListener('click', function(){ runFlow(false); });
 })();
 </script>
 
