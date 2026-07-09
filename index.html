@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Igor Zilberman — Senior DevOps / Platform Engineer</title>
+<meta name="description" content="Igor Zilberman — Senior DevOps / Platform Engineer. Kubernetes, Terraform, AWS/GCP/Azure, CI/CD, GitOps, Temporal, observability." />
+<link rel="icon" href="data:,">
+<style>
+  :root{
+    --bg: #0a0e14;
+    --bg-panel: #10161f;
+    --border: #1f2937;
+    --text: #c9d1d9;
+    --text-dim: #6b7583;
+    --green: #39d353;
+    --amber: #f0b429;
+    --blue: #58a6ff;
+    --mono: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--mono);
+    line-height:1.6;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(57,211,83,0.06), transparent 40%),
+      radial-gradient(circle at 80% 0%, rgba(88,166,255,0.05), transparent 40%);
+  }
+  a{color:var(--green); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .wrap{max-width:840px; margin:0 auto; padding:0 20px 80px;}
+
+  .termbar{
+    display:flex; align-items:center; gap:8px;
+    padding:14px 20px; border-bottom:1px solid var(--border);
+    max-width:840px; margin:0 auto;
+  }
+  .dot{width:11px;height:11px;border-radius:50%;}
+  .dot.r{background:#ff5f56;} .dot.y{background:#ffbd2e;} .dot.g{background:#27c93f;}
+  .termbar .path{margin-left:14px; color:var(--text-dim); font-size:13px;}
+
+  header{padding:56px 0 28px;}
+  .prompt{color:var(--text-dim); font-size:13px; margin-bottom:10px;}
+  .prompt .cmd{color:var(--blue);}
+  h1{font-size:2.1rem; margin:0 0 4px; color:#fff; letter-spacing:-0.5px;}
+  .title{color:var(--green); font-size:1.05rem; margin-bottom:18px;}
+  .tagline{color:var(--text-dim); font-size:0.95rem; margin-bottom:22px;}
+  .links{display:flex; gap:18px; font-size:0.9rem; flex-wrap:wrap;}
+  .links a{color:var(--text); border:1px solid var(--border); padding:6px 12px; border-radius:6px;}
+  .links a:hover{border-color:var(--green); color:var(--green); text-decoration:none;}
+
+  section{margin-top:44px;}
+  h2{
+    font-size:0.85rem; text-transform:uppercase; letter-spacing:1.5px;
+    color:var(--text-dim); margin-bottom:16px;
+  }
+  h2::before{content:"// "; color:var(--green);}
+
+  p.summary{font-size:0.95rem; color:var(--text);}
+
+  .tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    background:var(--bg-panel); border:1px solid var(--border);
+    color:var(--text); padding:5px 10px; border-radius:5px; font-size:0.82rem;
+  }
+  .tag b{color:var(--amber); font-weight:600;}
+
+  .cards{display:grid; gap:14px;}
+  .card{
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:8px;
+    padding:16px 18px;
+  }
+  .card h3{margin:0 0 8px; font-size:0.98rem; color:#fff;}
+  .card ul{margin:0; padding-left:18px; color:var(--text); font-size:0.88rem;}
+  .card li{margin-bottom:5px;}
+
+  .timeline .role{margin-bottom:22px;}
+  .role .rh{display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;}
+  .role .company{color:#fff; font-weight:600; font-size:0.95rem;}
+  .role .years{color:var(--text-dim); font-size:0.85rem;}
+  .role ul{margin:8px 0 0; padding-left:18px; font-size:0.88rem; color:var(--text);}
+  .role li{margin-bottom:4px;}
+  .prior{color:var(--text-dim); font-size:0.85rem; margin-top:4px;}
+
+  .edu{font-size:0.9rem; color:var(--text);}
+
+  /* --- Notification demo --- */
+  .demo{
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:10px;
+    padding:24px 20px 30px;
+  }
+  .demo .hint{color:var(--text-dim); font-size:0.82rem; margin-bottom:18px;}
+
+  .flow{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:0; overflow-x:auto; padding:10px 0 20px;
+  }
+  .node{
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    min-width:78px; flex:0 0 auto;
+  }
+  .node .box{
+    width:52px; height:52px; border-radius:10px;
+    background:#0d1520; border:1.5px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-size:22px;
+    transition:all .25s ease;
+  }
+  .node .lbl{font-size:0.68rem; color:var(--text-dim); text-align:center; transition:color .25s ease;}
+  .node.active .box{border-color:var(--green); box-shadow:0 0 14px rgba(57,211,83,0.45); background:#0f2015;}
+  .node.active .lbl{color:var(--green);}
+
+  .edge{
+    flex:1 1 auto; height:2px; background:var(--border); position:relative; min-width:20px;
+    margin:0 -2px; align-self:center; margin-top:-24px;
+  }
+  .edge.active{background:var(--green); box-shadow:0 0 8px rgba(57,211,83,0.5);}
+
+  .replay{
+    background:transparent; border:1px solid var(--border); color:var(--text);
+    font-family:var(--mono); font-size:0.82rem; padding:8px 14px; border-radius:6px; cursor:pointer;
+  }
+  .replay:hover{border-color:var(--green); color:var(--green);}
+
+  .toast{
+    position:fixed; bottom:24px; right:24px; max-width:340px;
+    background:#0f2015; border:1px solid var(--green); border-radius:8px;
+    padding:14px 16px; font-size:0.85rem; color:var(--text);
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+    transform:translateY(20px); opacity:0; transition:all .35s ease; pointer-events:none;
+  }
+  .toast.show{transform:translateY(0); opacity:1;}
+  .toast .h{color:var(--green); font-weight:600; margin-bottom:4px; font-size:0.8rem;}
+
+  footer{color:var(--text-dim); font-size:0.78rem; margin-top:50px; text-align:center;}
+
+  @media (max-width:600px){
+    .flow{padding-bottom:14px;}
+    .node{min-width:58px;}
+    .node .box{width:42px;height:42px;font-size:18px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="termbar">
+  <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+  <span class="path">zilberman.ca — zsh</span>
+</div>
+
+<div class="wrap">
+
+  <header>
+    <div class="prompt">igor@zilberman <span class="cmd">~ %</span> whoami</div>
+    <h1>Igor Zilberman</h1>
+    <div class="title">Senior DevOps / Platform Engineer</div>
+    <div class="tagline">15+ years keeping distributed systems upright so no one else has to think about it.</div>
+    <div class="links">
+      <a href="https://github.com/igorzi84" target="_blank" rel="noopener">github.com/igorzi84</a>
+      <a href="https://linkedin.com/in/igorzi" target="_blank" rel="noopener">linkedin.com/in/igorzi</a>
+      <a href="mailto:igor@zilberman.ca">igor@zilberman.ca</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>summary</h2>
+    <p class="summary">
+      Senior DevOps and Platform Engineer with 15+ years building and operating cloud infrastructure,
+      CI/CD systems, Kubernetes platforms, and production automation for large-scale distributed systems.
+      Hands-on across AWS, GCP, and Azure, with recent work focused on Python/FastAPI services, Temporal
+      workflows, GitOps deployments, Terraform, Helm, and Prometheus/Grafana observability for Redis
+      Enterprise cloud platforms.
+    </p>
+  </section>
+
+  <section>
+    <h2>stack</h2>
+    <div class="tags">
+      <span class="tag"><b>Cloud:</b> AWS · GCP · Azure · Kubernetes · Docker · Helm</span>
+      <span class="tag"><b>CI/CD:</b> GitHub Actions · Jenkins · ArgoCD · GitOps</span>
+      <span class="tag"><b>IaC:</b> Terraform · Ansible · Chef · SOPS · KMS</span>
+      <span class="tag"><b>Backend:</b> Python · FastAPI · TypeScript · Redis</span>
+      <span class="tag"><b>Observability:</b> Prometheus · Grafana · OpenTelemetry</span>
+      <span class="tag"><b>Automation:</b> Temporal · KEDA · queue-based scaling</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>selected work</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Cloud Certificate Orchestration Service — Redis</h3>
+        <ul>
+          <li>Python/FastAPI microservice for automated TLS certificate lifecycle management using Temporal workflows.</li>
+          <li>Durable workflows for issuance, domain claims, expiry scans, and schedule reconciliation across Redis Enterprise clusters.</li>
+          <li>Helm/GitOps deployment with health probes, mTLS, SOPS/KMS secrets, Prometheus metrics, and KEDA scaling on queue depth.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Redis Cloud GitOps &amp; Deployment Platform — Redis</h3>
+        <ul>
+          <li>GitOps source-of-truth repo managing Redis Cloud applications across QA, staging, and production Kubernetes.</li>
+          <li>Helm charts, ArgoCD ApplicationSets, Prometheus rules, and rollout procedures for production services.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Hermes Feed Monitoring Service — Redis</h3>
+        <ul>
+          <li>Python service monitoring RSS/Atom feeds for deprecations, breaking changes, and platform updates.</li>
+          <li>Async parsing, OpenAI-based analysis, Redis caching, PDF reporting, and Slack notifications.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="timeline">
+    <h2>experience</h2>
+    <div class="role">
+      <div class="rh"><span class="company">Redis — Senior DevOps / Platform Engineer</span><span class="years">2021 – Present</span></div>
+      <ul>
+        <li>Backend infrastructure services in Python on Kubernetes for automated operational workflows across Redis Enterprise cloud environments.</li>
+        <li>Temporal-based workflow automation for long-running operational processes.</li>
+        <li>CI/CD and release workflows: automated testing, containerized builds, semantic versioning, environment promotion.</li>
+        <li>Production on-call and incident response across Kubernetes, Linux, networking, and distributed database infrastructure.</li>
+      </ul>
+    </div>
+    <div class="role">
+      <div class="rh"><span class="company">Redis — DevOps Engineer</span><span class="years">2017 – 2021</span></div>
+      <ul>
+        <li>Infrastructure automation with Chef and Ansible for repeatable, low-touch deployments.</li>
+        <li>Operated 100+ production Redis Enterprise clusters across AWS, GCP, and Azure.</li>
+      </ul>
+    </div>
+    <div class="prior">+ prior roles in CI/CD and infrastructure engineering at Dell Israel R&amp;D and Amdocs Israel.</div>
+  </section>
+
+  <section>
+    <h2>education</h2>
+    <div class="edu">B.Sc., Electrical and Electronics Engineering — SCE College of Engineering, Israel</div>
+  </section>
+
+  <section>
+    <h2>live infra check</h2>
+    <div class="demo">
+      <div class="hint">someone loaded this page — routing an event through the (simulated) pipeline:</div>
+
+      <div class="flow" id="flow">
+        <div class="node" id="n0"><div class="box">🌐</div><div class="lbl">Visitor</div></div>
+        <div class="edge" id="e0"></div>
+        <div class="node" id="n1"><div class="box">🚪</div><div class="lbl">API GW</div></div>
+        <div class="edge" id="e1"></div>
+        <div class="node" id="n2"><div class="box">λ</div><div class="lbl">Lambda</div></div>
+        <div class="edge" id="e2"></div>
+        <div class="node" id="n3"><div class="box">📨</div><div class="lbl">SQS</div></div>
+        <div class="edge" id="e3"></div>
+        <div class="node" id="n4"><div class="box">📡</div><div class="lbl">SNS</div></div>
+        <div class="edge" id="e4"></div>
+        <div class="node" id="n5"><div class="box">📱</div><div class="lbl">Igor</div></div>
+      </div>
+
+      <button class="replay" id="replay">↻ send another ping</button>
+    </div>
+  </section>
+
+  <footer>
+    built by hand, deployed on GitHub Pages, DNS pointed from zilberman.ca — no infra bill required.
+  </footer>
+
+</div>
+
+<div class="toast" id="toast">
+  <div class="h">📬 notification sent</div>
+  <div>Thanks for visiting — a notification just went out to Igor. He's going to be stoked someone actually visited his page.</div>
+</div>
+
+<script>
+(function(){
+  var nodeIds = ['n0','n1','n2','n3','n4','n5'];
+  var edgeIds = ['e0','e1','e2','e3','e4'];
+  var toast = document.getElementById('toast');
+  var running = false;
+
+  function resetFlow(){
+    nodeIds.forEach(function(id){ document.getElementById(id).classList.remove('active'); });
+    edgeIds.forEach(function(id){ document.getElementById(id).classList.remove('active'); });
+    toast.classList.remove('show');
+  }
+
+  function runFlow(){
+    if(running) return;
+    running = true;
+    resetFlow();
+    var step = 0;
+    var sequence = [];
+    nodeIds.forEach(function(nid, i){
+      sequence.push(nid);
+      if(edgeIds[i]) sequence.push(edgeIds[i]);
+    });
+
+    function tick(){
+      if(step >= sequence.length){
+        toast.classList.add('show');
+        setTimeout(function(){ toast.classList.remove('show'); }, 5000);
+        running = false;
+        return;
+      }
+      document.getElementById(sequence[step]).classList.add('active');
+      step++;
+      setTimeout(tick, 260);
+    }
+    tick();
+  }
+
+  document.getElementById('replay').addEventListener('click', runFlow);
+  window.addEventListener('load', function(){
+    setTimeout(runFlow, 900);
+  });
+})();
+</script>
+
+</body>
+</html>
