@@ -257,7 +257,7 @@
         <div class="edge" id="e0"></div>
         <div class="node" id="n1"><div class="box">⚡</div><div class="lbl">CF Worker</div></div>
         <div class="edge" id="e1"></div>
-        <div class="node" id="n2"><div class="box">🔔</div><div class="lbl">ntfy</div></div>
+        <div class="node" id="n2"><div class="box">✈️</div><div class="lbl">Telegram</div></div>
         <div class="edge" id="e2"></div>
         <div class="node" id="n3"><div class="box">📱</div><div class="lbl">Igor</div></div>
       </div>
@@ -280,9 +280,9 @@
 
 <script>
 (function(){
-  // Points at a Cloudflare Worker (see SETUP.md) that holds the ntfy topic as a
-  // server-side secret, rate-limits by IP, and enriches the push with rough
-  // visitor geo/device info. Nothing secret lives in this file anymore.
+  // Points at a Cloudflare Worker (igorzi84/zilberman-ping-worker) that holds
+  // the Telegram bot token as a server-side secret, rate-limits by IP, and
+  // enriches the push with rough visitor geo/device info. No secrets here.
   var PING_ENDPOINT = 'https://zilberman-ping.igorzi84.workers.dev/ping';
 
   var nodeIds = ['n0','n1','n2','n3'];
@@ -332,7 +332,7 @@
     tick();
   }
 
-  // real trigger: fires once per page load, sends the actual ntfy push
+  // real trigger: fires once per page load, sends the actual push
   window.addEventListener('load', function(){
     setTimeout(function(){ runFlow(true); }, 900);
   });
