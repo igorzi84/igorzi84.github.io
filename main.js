@@ -9,17 +9,63 @@
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var STEP_MS = reducedMotion ? 0 : 450;
   var REPLAY_COOLDOWN_S = 10;
+  var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
 
   if(!toast || !replayBtn) return;
+
+  function clean(value, limit){
+    return String(value || '').replace(/[\r\n\t]/g, ' ').slice(0, limit || 80);
+  }
+
+  function referrerHost(){
+    if(!document.referrer) return '';
+    try { return new URL(document.referrer).hostname; }
+    catch(e) { return ''; }
+  }
+
+  function campaign(){
+    var params = new URLSearchParams(window.location.search);
+    var result = {};
+    UTM_KEYS.forEach(function(key){
+      var value = params.get(key);
+      if(value) result[key] = clean(value, 80);
+    });
+    return result;
+  }
+
+  function sendEvent(payload){
+    fetch(PING_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(function(){});
+  }
 
   function sendRealPing(){
     try{
       if(sessionStorage.getItem('zc_pinged')) return;
       sessionStorage.setItem('zc_pinged', '1');
     }catch(e){}
-    fetch(PING_ENDPOINT, { method: 'POST' })
-      .catch(function(){});
+    sendEvent({
+      event: 'visit',
+      path: clean(window.location.pathname, 160),
+      referrer: referrerHost(),
+      campaign: campaign()
+    });
   }
+
+  document.querySelectorAll('[data-track]').forEach(function(link){
+    link.addEventListener('click', function(){
+      sendEvent({
+        event: 'click',
+        target: clean(link.getAttribute('data-track'), 40),
+        path: clean(window.location.pathname, 160),
+        referrer: referrerHost(),
+        campaign: campaign()
+      });
+    });
+  });
 
   function resetFlow(){
     nodeIds.forEach(function(id){
